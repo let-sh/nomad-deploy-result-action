@@ -29,7 +29,9 @@ try {
       .then(res => res.json())
       .then((jsonData) => {
         result = jsonData.Status
+        core.setOutput("result", result);
         if (result === "failed") {
+          console.log(jsonData[0].Description);
           core.setFailed(jsonData[0].Description);
         }
 
@@ -44,13 +46,9 @@ try {
       });
   }
 
-  
-  // console.log(`Hello ${nameToGreet}!`);
-  // const time = (new Date()).toTimeString();
-  // core.setOutput("time", time);
-  // // Get the JSON webhook payload for the event that triggered the workflow
-  // const payload = JSON.stringify(github.context.payload, undefined, 2)
-  // console.log(`The event payload: ${payload}`);
+  // Get the JSON webhook payload for the event that triggered the workflow
+  const payload = JSON.stringify(github.context.payload, undefined, 2)
+  console.log(`finshed check up deploy result: ${result}. ${payload}`);
 } catch (error) {
   core.setFailed(error.message);
 }

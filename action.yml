@@ -15,8 +15,8 @@ inputs:
     description: "Nomad namespace"
     default: "default"
 outputs:
-  time: # id of output
-    description: "The time we greeted you"
+  result: # id of output
+    description: "nomad job result, e.g. successful, failed"
 runs:
   using: "node12"
   main: "index.js"

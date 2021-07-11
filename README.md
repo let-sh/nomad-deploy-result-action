@@ -11,16 +11,20 @@ This action waiting for nomad deployment result. Sucess to continue, Failed to s
 | nomad-job-name  | ✅       | ""                      | "nginx"                                | Nomad job to inspect           |
 | nomad-namespace |          | "default"               | "default"                              | Nomad namespace                |
 
-<!-- ## Outputs
+## Outputs
 
-## `time`
-
-The time we greeted you. -->
+| output | sample      | description                  |
+| ------ | ----------- | ---------------------------- |
+| result | "succesful" | job deployment status result |
 
 ## Example usage
 
 ```yml
-uses: let-sh/nomad-deploy-result-action@v1
-with:
-  who-to-greet: "Mona the Octocat"
+- name: Check deployment result
+  uses: let-sh/nomad-deploy-result-action@v1
+  with:
+    nomad-addr: ${{ secrets.NOMAD_ADDR }}
+    nomad-token: ${{ secrets.NOMAD_TOKEN }}
+    nomad-job-name: ${{ secrets.NOMAD_JOB }}
+    nomad-namespace: ${{ secrets.NOMAD_NAMESPACE }}
 ```
