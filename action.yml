@@ -1,0 +1,22 @@
+name: "Nomad Deploy Result"
+description: "Handle with nomad deployment result"
+inputs:
+  nomad-addr: # id of input
+    description: "Nomad endpoint address"
+    required: true
+    default: "http://localhost:4646"
+  nomad-token: # id of input
+    description: "Nomad token to access endpoint"
+    required: true
+  nomad-job-name: # id of input
+    description: "Nomad job to inspect"
+    required: true
+  nomad-namespace: # id of input
+    description: "Nomad namespace"
+    default: "default"
+outputs:
+  time: # id of output
+    description: "The time we greeted you"
+runs:
+  using: "node12"
+  main: "index.js"
