@@ -30,11 +30,11 @@ try {
       .then((jsonData) => {
         result = jsonData.Status
         if (result === "failed") {
-          core.setFailed(jsonData.Description);
+          core.setFailed(jsonData[0].Description);
         }
 
         if (result === "successful") {
-          console.log(jsonData.Description);
+          console.log(jsonData[0].Description);
         }
       })
       .catch((err) => {
