@@ -1,13 +1,10 @@
 const core = require('@actions/core');
 const github = require('@actions/github');
 const fetch = require('node-fetch');
+let round = 1;
 
 try {
-
-  var result = fetchDeploymentResult();
-  core.setOutput("result", result);
-  console.log(`finshed check up deploy result: ${result}.`);
-      
+  fetchDeploymentResult();
 } catch (error) {
   core.setFailed(error.message);
 }
@@ -17,7 +14,7 @@ function fetchDeploymentResult() {
   const nomadToken = core.getInput('nomad-token');
   const nomadJobName = core.getInput('nomad-job-name');
   const nomadNamespace = core.getInput('nomad-namespace');
-  
+
   fetch(`${nomadEndpoint}/v1/job/${nomadJobName}/deployment?namespace=${nomadNamespace}&index=1`, {
   "headers": {
     "accept": "*/*",
@@ -36,18 +33,26 @@ function fetchDeploymentResult() {
   .then(res => res.json())
   .then((jsonData) => {
     result = jsonData.Status
-    console.log(jsonData.Status)
+
     if (result === "failed") {
       console.log("deployment description:", jsonData.StatusDescription);
       core.setFailed(jsonData.StatusDescription);
       return result
     }
     else if (result === "successful") {
+      core.setOutput("result", result);
       console.log("deployment description:", jsonData.StatusDescription);
+      console.log(`finshed check up deploy result: ${result}.`);
+
       return result
     } else {
       var waitTill = new Date(new Date().getTime() + 4 * 1000);
-      while(waitTill > new Date()){}
+      while (waitTill > new Date()) { }
+      
+      console.log(jsonData.Status, ", round:", round)
+      // add round counter
+      round += 1
+
       fetchDeploymentResult()
     }
   })
